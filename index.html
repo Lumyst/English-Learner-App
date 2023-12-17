@@ -19,16 +19,14 @@
 
     .container {
       background: #fff;
-      padding: 30px;
+      padding: 20px;
       border-radius: 10px;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
       text-align: center;
       transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-      max-height: 80vh;
+      max-width: 400px;
+      width: 100%;
       overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
 
     .container:hover {
@@ -42,7 +40,7 @@
 
     label {
       display: block;
-      margin: 20px 0 10px;
+      margin: 15px 0 5px;
       font-weight: 700;
       color: #555;
     }
@@ -50,7 +48,7 @@
     input {
       width: calc(100% - 20px);
       padding: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       box-sizing: border-box;
       border: 1px solid #ccc;
       border-radius: 6px;
@@ -81,18 +79,40 @@
     #translationsList {
       list-style-type: none;
       padding: 0;
-      text-align: center;
-      margin-top: 30px;
+      text-align: left;
+      margin-top: 20px;
     }
 
     .translationItem {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       font-size: 16px;
       color: #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #f5f5f5;
+      padding: 10px;
+      border-radius: 6px;
+    }
+
+    .translationItem button {
+      background: #e74c3c;
+      color: #fff;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s;
+      margin-left: 10px;
+    }
+
+    .translationItem button:hover {
+      background: #c0392b;
     }
 
     #removeAllButton {
-      margin-top: 20px;
+      margin-top: 15px;
       background: #e74c3c;
     }
 
@@ -101,12 +121,13 @@
     }
 
     #quizModeSection {
-      margin-top: 30px;
+      margin-top: 25px;
     }
 
     #quizResult {
       font-size: 18px;
       color: #3498db;
+      margin-top: 15px;
     }
 
     #quizModeSection button {
@@ -121,23 +142,23 @@
 
     <div>
       <label for="englishWord">English Word:</label>
-      <input type="text" id="englishWord">
+      <input type="text" id="englishWord" placeholder="Enter an English word">
       <br>
       <label for="translation">Translation:</label>
-      <input type="text" id="translation">
+      <input type="text" id="translation" placeholder="Enter the translation">
       <br>
       <button onclick="addTranslation()">Add Word</button>
     </div>
 
-    <h2>Translations</h2>
+    <h2>Added Words</h2>
     <ul id="translationsList"></ul>
-
+    <br>
     <div id="quizModeSection">
       <h1>Quiz Mode</h1>
       <button onclick="startQuiz()">Start Quiz</button>
       <p id="quizWord"></p>
       <label for="quizTranslation">Your Translation:</label>
-      <input type="text" id="quizTranslation">
+      <input type="text" id="quizTranslation" placeholder="Enter your translation">
       <button onclick="checkQuizAnswer()">Check Answer</button>
       <p id="quizResult"></p>
     </div>
@@ -183,9 +204,18 @@
       for (const englishWord of Object.keys(translations)) {
         const listItem = document.createElement('li');
         listItem.className = 'translationItem';
-        listItem.textContent = englishWord;
+        listItem.innerHTML = `
+          <span>${englishWord}</span>
+          <button onclick="removeTranslation('${englishWord}')">Remove</button>
+        `;
         translationsList.appendChild(listItem);
       }
+    }
+
+    function removeTranslation(englishWord) {
+      delete translations[englishWord];
+      saveTranslations();
+      updateTranslationsList();
     }
 
     function removeAllTranslations() {
