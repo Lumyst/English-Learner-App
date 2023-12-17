@@ -24,6 +24,7 @@
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
       text-align: center;
       transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      max-height: 80vh;
       max-width: 400px;
       width: 100%;
       overflow-y: auto;
@@ -133,6 +134,27 @@
     #quizModeSection button {
       margin-top: 10px;
     }
+
+    #revealTranslationButton {
+      background: #3498db;
+      margin-top: 15px;
+    }
+
+    #revealTranslationButton:hover {
+      background: #2980b9;
+    }
+
+    .translation-display {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      padding: 15px;
+      border: 2px solid #3498db;
+      border-radius: 6px;
+      z-index: 9999;
+    }
   </style>
 </head>
 <body>
@@ -150,12 +172,13 @@
       <button onclick="addTranslation()">Add Word</button>
     </div>
 
-    <h2>Added Words</h2>
+    <h2>Translations</h2>
     <ul id="translationsList"></ul>
-    <br>
+
     <div id="quizModeSection">
       <h1>Quiz Mode</h1>
       <button onclick="startQuiz()">Start Quiz</button>
+      <button id="revealTranslationButton" onclick="revealTranslation()">Reveal Translation</button>
       <p id="quizWord"></p>
       <label for="quizTranslation">Your Translation:</label>
       <input type="text" id="quizTranslation" placeholder="Enter your translation">
@@ -286,6 +309,21 @@
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
       }
+    }
+
+    function revealTranslation() {
+      const quizWordElement = document.getElementById('quizWord');
+      const correctTranslation = translations[quizWordElement.textContent].toLowerCase();
+
+      const translationDisplay = document.createElement('div');
+      translationDisplay.className = 'translation-display';
+      translationDisplay.textContent = `Translation: ${correctTranslation}`;
+
+      document.body.appendChild(translationDisplay);
+
+      setTimeout(() => {
+        document.body.removeChild(translationDisplay);
+      }, 3000); // Display for 3 seconds, adjust as needed
     }
 
     loadTranslations();
