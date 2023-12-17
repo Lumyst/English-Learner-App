@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Learner</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap">
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(45deg, #4caf50, #2196f3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container:hover {
+      transform: scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    h1, h2, h3 {
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin: 20px 0 10px;
+      font-weight: 700;
+      color: #555;
+    }
+
+    input {
+      width: calc(100% - 20px);
+      padding: 12px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      border-color: #4caf50;
+    }
+
+    button {
+      background: linear-gradient(45deg, #4caf50, #2196f3);
+      color: #fff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(45deg, #45a049, #1976d2);
+    }
+
+    #translationsList {
+      list-style-type: none;
+      padding: 0;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .translationItem {
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: #333;
+    }
+
+    #removeAllButton {
+      margin-top: 20px;
+      background: #e74c3c;
+    }
+
+    #removeAllButton:hover {
+      background: #c0392b;
+    }
+
+    #quizModeSection {
+      margin-top: 30px;
+    }
+
+    #quizResult {
+      font-size: 18px;
+      color: #3498db;
+    }
+
+    #quizModeSection button {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>English Learner</h1>
+
+    <div>
+      <label for="englishWord">English Word:</label>
+      <input type="text" id="englishWord">
+      <br>
+      <label for="translation">Translation:</label>
+      <input type="text" id="translation">
+      <br>
+      <button onclick="addTranslation()">Add Word</button>
+    </div>
+
+    <h2>Translations</h2>
+    <ul id="translationsList"></ul>
+
+    <div id="quizModeSection">
+      <h1>Quiz Mode</h1>
+      <button onclick="startQuiz()">Start Quiz</button>
+      <p id="quizWord"></p>
+      <label for="quizTranslation">Your Translation:</label>
+      <input type="text" id="quizTranslation">
+      <button onclick="checkQuizAnswer()">Check Answer</button>
+      <p id="quizResult"></p>
+    </div>
+
+    <button id="removeAllButton" onclick="removeAllTranslations()">Remove All</button>
+  </div>
+
+  <script>
+    let translations = {};
+    const TRANSLATIONS_FILE = 'translations.json';
+    let quizWords = [];
+    let currentQuizIndex = 0;
+
+    function loadTranslations() {
+      if (localStorage.getItem(TRANSLATIONS_FILE)) {
+        translations = JSON.parse(localStorage.getItem(TRANSLATIONS_FILE));
+      }
+    }
+
+    function addTranslation() {
+      const englishWordInput = document.getElementById('englishWord');
+      const translationInput = document.getElementById('translation');
+      const englishWord = englishWordInput.value.trim();
+      const translation = translationInput.value.trim();
+
+      if (englishWord !== '' && translation !== '') {
+        translations[englishWord] = translation;
+        saveTranslations();
+        updateTranslationsList();
+        englishWordInput.value = '';
+        translationInput.value = '';
+      }
+    }
+
+    function saveTranslations() {
+      localStorage.setItem(TRANSLATIONS_FILE, JSON.stringify(translations));
+    }
+
+    function updateTranslationsList() {
+      const translationsList = document.getElementById('translationsList');
+      translationsList.innerHTML = '';
+
+      for (const englishWord of Object.keys(translations)) {
+        const listItem = document.createElement('li');
+        listItem.className = 'translationItem';
+        listItem.textContent = englishWord;
+        translationsList.appendChild(listItem);
+      }
+    }
+
+    function removeAllTranslations() {
+      translations = {};
+      saveTranslations();
+      updateTranslationsList();
+
+      const quizWordElement = document.getElementById('quizWord');
+      const quizTranslationInput = document.getElementById('quizTranslation');
+      const quizResultElement = document.getElementById('quizResult');
+
+      quizResultElement.textContent = '';
+      quizWordElement.textContent = '';
+      quizTranslationInput.value = '';
+      currentQuizIndex = 0;
+    }
+
+    function startQuiz() {
+      quizWords = Object.keys(translations);
+      if (quizWords.length === 0) {
+        alert('Add Words before starting the quiz.');
+        return;
+      }
+
+      shuffleArray(quizWords);
+      currentQuizIndex = 0;
+      showNextQuizWord();
+    }
+
+    function showNextQuizWord() {
+      const quizWordElement = document.getElementById('quizWord');
+      const quizTranslationInput = document.getElementById('quizTranslation');
+      const quizResultElement = document.getElementById('quizResult');
+
+      quizResultElement.textContent = '';
+      quizWordElement.textContent = quizWords[currentQuizIndex];
+      quizTranslationInput.value = '';
+    }
+
+    function checkQuizAnswer() {
+      const quizTranslationInput = document.getElementById('quizTranslation');
+      const quizResultElement = document.getElementById('quizResult');
+      const quizWord = quizWords[currentQuizIndex];
+      const userTranslation = quizTranslationInput.value.trim().toLowerCase();
+      const correctTranslation = translations[quizWord].toLowerCase();
+
+      if (userTranslation === correctTranslation) {
+        quizResultElement.textContent = 'Correct!';
+        setTimeout(function () {
+          requestAnimationFrame(function () {
+            currentQuizIndex++;
+            if (currentQuizIndex < quizWords.length) {
+              showNextQuizWord();
+            } else {
+              setTimeout(function () {
+                quizResultElement.textContent = 'Quiz completed!';
+              }, 1000);
+            }
+          });
+        }, 1000);
+      } else {
+        quizResultElement.textContent = 'Incorrect. Try again.';
+      }
+    }
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    loadTranslations();
+    updateTranslationsList();
+  </script>
+
+</body>
+</html>
