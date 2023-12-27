@@ -16,7 +16,7 @@ body {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    max-height: 1000vh;
+    max-height: 80vh;
     max-width: 400px;
     width: 100%;
     overflow-y: auto;
@@ -161,6 +161,13 @@ body {
     background: linear-gradient(45deg, #45a049, #1976d2);
   }
   
+  @media screen and (min-width: 769px) {
+    .container {
+      max-height: 80vh;
+    }
+  }
+
+
   @media screen and (max-width: 480px) {
     .container {
       max-width: 100%;
@@ -171,4 +178,3 @@ body {
       width: calc(100% - 24px);
     }
   }
-  
