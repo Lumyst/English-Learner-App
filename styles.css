@@ -101,7 +101,8 @@ body {
   }
   
   #remove-all-button {
-    margin-top: 10px;
+    margin-top: 5px;
+    margin-bottom: 75px;
     background: #e74c3c;
   }
   
@@ -110,8 +111,7 @@ body {
   }
   
   #quiz-mode-section {
-    margin-top: 25px;
-    margin-bottom: 50px;
+    margin-top: 5px;
   }
   
   #quiz-result {
