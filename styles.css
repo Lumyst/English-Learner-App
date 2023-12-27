@@ -168,8 +168,9 @@ body {
   }
 
 
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 768px) {
     .container {
+      max-height: 1000vh;
       max-width: 100%;
       padding: 10px;
     }
