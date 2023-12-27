@@ -2,14 +2,14 @@ body {
     font-family: 'Quicksand', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(45deg, #4caf50, #2196f3);
+    background: linear-gradient(45deg, #3498db, #2ecc71);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-  }
-  
-  .container {
+}
+
+.container {
     background: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -21,37 +21,38 @@ body {
     width: 100%;
     overflow-y: auto;
     box-sizing: border-box;
-  }
-  
-  h1, h2, h3 {
-    color: #333;
-  }
-  
-  label {
+}
+
+h1, h2, h3 {
+    color: #2c3e50;
+}
+
+label {
     display: block;
     margin: 15px 0 5px;
-    font-weight: 700;
+    font-weight: 600;
     color: #555;
-  }
-  
-  input {
+}
+
+input {
     width: calc(100% - 24px);
     padding: 12px;
     margin-bottom: 15px;
     box-sizing: border-box;
-    border: 1px solid #ccc;
+    border: 1px solid #bdc3c7;
     border-radius: 6px;
     font-size: 16px;
+    color: #34495e;
     outline: none;
     transition: border-color 0.3s;
-  }
-  
-  input:focus {
-    border-color: #4caf50;
-  }
-  
-  button {
-    background: linear-gradient(45deg, #4caf50, #2196f3);
+}
+
+input:focus {
+    border-color: #3498db;
+}
+
+button {
+    background: linear-gradient(45deg, #3498db, #2ecc71);
     color: #fff;
     padding: 12px 20px;
     border: none;
@@ -59,32 +60,32 @@ body {
     cursor: pointer;
     font-size: 16px;
     transition: background 0.3s;
-  }
-  
-  button:hover {
-    background: linear-gradient(45deg, #45a049, #1976d2);
-  }
-  
-  ul {
+}
+
+button:hover {
+    background: linear-gradient(45deg, #2980b9, #27ae60);
+}
+
+ul {
     list-style-type: none;
     padding: 0;
     text-align: left;
     margin-top: 20px;
-  }
-  
-  .translation-item {
+}
+
+.translation-item {
     margin-bottom: 8px;
     font-size: 16px;
     color: #333;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #f5f5f5;
+    background-color: #ecf0f1;
     padding: 10px;
     border-radius: 6px;
-  }
-  
-  .translation-item button {
+}
+
+.translation-item button {
     background: #e74c3c;
     color: #fff;
     padding: 8px 12px;
@@ -94,46 +95,46 @@ body {
     font-size: 14px;
     transition: background 0.3s;
     margin-left: 10px;
-  }
-  
-  .translation-item button:hover {
+}
+
+.translation-item button:hover {
     background: #c0392b;
-  }
-  
-  #remove-all-button {
-    margin-top: 5px;
-    margin-bottom: 75px;
+}
+
+#remove-all-button {
+    margin-top: 10px;
+    margin-bottom: 20px;
     background: #e74c3c;
-  }
-  
-  #remove-all-button:hover {
+}
+
+#remove-all-button:hover {
     background: #c0392b;
-  }
-  
-  #quiz-mode-section {
-    margin-top: 5px;
-  }
-  
-  #quiz-result {
+}
+
+#quiz-mode-section {
+    margin-top: 20px;
+}
+
+#quiz-result {
     font-size: 18px;
     color: #3498db;
     margin-top: 15px;
-  }
-  
-  #quiz-mode-section button {
+}
+
+#quiz-mode-section button {
     margin-top: 10px;
-  }
-  
-  #reveal-translation-button {
-    background: linear-gradient(45deg, #4caf50, #2196f3);
+}
+
+#reveal-translation-button {
+    background: linear-gradient(45deg, #3498db, #2ecc71);
     margin-top: 15px;
-  }
-  
-  #reveal-translation-button:hover {
-    background: linear-gradient(45deg, #45a049, #1976d2);
-  }
-  
-  .translation-display {
+}
+
+#reveal-translation-button:hover {
+    background: linear-gradient(45deg, #2980b9, #27ae60);
+}
+
+.translation-display {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -143,10 +144,10 @@ body {
     border: 2px solid #3498db;
     border-radius: 6px;
     z-index: 9999;
-  }
-  
-  #edit-button {
-    background: linear-gradient(45deg, #4caf50, #2196f3);
+}
+
+#edit-button {
+    background: linear-gradient(45deg, #3498db, #2ecc71);
     color: #fff;
     padding: 8px 12px;
     border: none;
@@ -155,27 +156,30 @@ body {
     font-size: 14px;
     transition: background 0.3s;
     margin-left: 10px;
-  }
-  
-  #edit-button:hover {
-    background: linear-gradient(45deg, #45a049, #1976d2);
-  }
-  
-  @media screen and (min-width: 769px) {
-    .container {
-      max-height: 80vh;
-    }
-  }
+}
 
+#edit-button:hover {
+    background: linear-gradient(45deg, #2980b9, #27ae60);
+}
 
-  @media screen and (max-width: 768px) {
+@media screen and (min-width: 769px) {
     .container {
-      max-height: 1000vh;
-      max-width: 100%;
-      padding: 10px;
+        max-height: 80vh;
     }
-  
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        max-height: 1000vh;
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    #remove-all-button {
+        margin-bottom: 70px;
+    }
+
     input {
-      width: calc(100% - 24px);
+        width: calc(100% - 24px);
     }
-  }
+}
