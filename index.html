@@ -1,334 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>English Learner</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap">
-  <style>
-    body {
-      font-family: 'Quicksand', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(45deg, #4caf50, #2196f3);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .container {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-      max-height: 80vh;
-      max-width: 400px;
-      width: 100%;
-      overflow-y: auto;
-    }
-
-    .container:hover {
-      transform: scale(1.02);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    }
-
-    h1, h2, h3 {
-      color: #333;
-    }
-
-    label {
-      display: block;
-      margin: 15px 0 5px;
-      font-weight: 700;
-      color: #555;
-    }
-
-    input {
-      width: calc(100% - 20px);
-      padding: 12px;
-      margin-bottom: 15px;
-      box-sizing: border-box;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 16px;
-      outline: none;
-      transition: border-color 0.3s;
-    }
-
-    input:focus {
-      border-color: #4caf50;
-    }
-
-    button {
-      background: linear-gradient(45deg, #4caf50, #2196f3);
-      color: #fff;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background: linear-gradient(45deg, #45a049, #1976d2);
-    }
-
-    #translationsList {
-      list-style-type: none;
-      padding: 0;
-      text-align: left;
-      margin-top: 20px;
-    }
-
-    .translationItem {
-      margin-bottom: 8px;
-      font-size: 16px;
-      color: #333;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #f5f5f5;
-      padding: 10px;
-      border-radius: 6px;
-    }
-
-    .translationItem button {
-      background: #e74c3c;
-      color: #fff;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background 0.3s;
-      margin-left: 10px;
-    }
-
-    .translationItem button:hover {
-      background: #c0392b;
-    }
-
-    #removeAllButton {
-      margin-top: 15px;
-      background: #e74c3c;
-    }
-
-    #removeAllButton:hover {
-      background: #c0392b;
-    }
-
-    #quizModeSection {
-      margin-top: 25px;
-    }
-
-    #quizResult {
-      font-size: 18px;
-      color: #3498db;
-      margin-top: 15px;
-    }
-
-    #quizModeSection button {
-      margin-top: 10px;
-    }
-
-    #revealTranslationButton {
-      background: #3498db;
-      margin-top: 15px;
-    }
-
-    #revealTranslationButton:hover {
-      background: #2980b9;
-    }
-
-    .translation-display {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #fff;
-      padding: 15px;
-      border: 2px solid #3498db;
-      border-radius: 6px;
-      z-index: 9999;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
   <div class="container">
     <h1>English Learner</h1>
 
     <div>
-      <label for="englishWord">English Word:</label>
-      <input type="text" id="englishWord" placeholder="Enter an English word">
+      <label for="english-word">English Word:</label>
+      <input type="text" id="english-word" placeholder="Enter an English word">
       <br>
       <label for="translation">Translation:</label>
       <input type="text" id="translation" placeholder="Enter the translation">
       <br>
-      <button onclick="addTranslation()">Add Word</button>
+      <button id="add-button" onclick="addTranslation()">Add Word</button>
+      <button id="edit-button" style="display: none;" onclick="addTranslation()">Update</button>
     </div>
 
     <h2>Translations</h2>
-    <ul id="translationsList"></ul>
+    <ul id="translations-list"></ul>
 
-    <div id="quizModeSection">
+    <div id="quiz-mode-section">
       <h1>Quiz Mode</h1>
       <button onclick="startQuiz()">Start Quiz</button>
-      <button id="revealTranslationButton" onclick="revealTranslation()">Reveal Translation</button>
-      <p id="quizWord"></p>
-      <label for="quizTranslation">Your Translation:</label>
-      <input type="text" id="quizTranslation" placeholder="Enter your translation">
+      <button id="reveal-translation-button" onclick="revealTranslation()">Reveal Translation</button>
+      <p id="quiz-word"></p>
+      <label for="quiz-translation">Your Translation:</label>
+      <input type="text" id="quiz-translation" placeholder="Enter your translation">
       <button onclick="checkQuizAnswer()">Check Answer</button>
-      <p id="quizResult"></p>
+      <p id="quiz-result"></p>
     </div>
 
-    <button id="removeAllButton" onclick="removeAllTranslations()">Remove All</button>
+    <button id="remove-all-button" onclick="removeAllTranslations()">Remove All</button>
   </div>
 
-  <script>
-    let translations = {};
-    const TRANSLATIONS_FILE = 'translations.json';
-    let quizWords = [];
-    let currentQuizIndex = 0;
-
-    function loadTranslations() {
-      if (localStorage.getItem(TRANSLATIONS_FILE)) {
-        translations = JSON.parse(localStorage.getItem(TRANSLATIONS_FILE));
-      }
-    }
-
-    function addTranslation() {
-      const englishWordInput = document.getElementById('englishWord');
-      const translationInput = document.getElementById('translation');
-      const englishWord = englishWordInput.value.trim();
-      const translation = translationInput.value.trim();
-
-      if (englishWord !== '' && translation !== '') {
-        translations[englishWord] = translation;
-        saveTranslations();
-        updateTranslationsList();
-        englishWordInput.value = '';
-        translationInput.value = '';
-      }
-    }
-
-    function saveTranslations() {
-      localStorage.setItem(TRANSLATIONS_FILE, JSON.stringify(translations));
-    }
-
-    function updateTranslationsList() {
-      const translationsList = document.getElementById('translationsList');
-      translationsList.innerHTML = '';
-
-      for (const englishWord of Object.keys(translations)) {
-        const listItem = document.createElement('li');
-        listItem.className = 'translationItem';
-        listItem.innerHTML = `
-          <span>${englishWord}</span>
-          <button onclick="removeTranslation('${englishWord}')">Remove</button>
-        `;
-        translationsList.appendChild(listItem);
-      }
-    }
-
-    function removeTranslation(englishWord) {
-      delete translations[englishWord];
-      saveTranslations();
-      updateTranslationsList();
-    }
-
-    function removeAllTranslations() {
-      translations = {};
-      saveTranslations();
-      updateTranslationsList();
-
-      const quizWordElement = document.getElementById('quizWord');
-      const quizTranslationInput = document.getElementById('quizTranslation');
-      const quizResultElement = document.getElementById('quizResult');
-
-      quizResultElement.textContent = '';
-      quizWordElement.textContent = '';
-      quizTranslationInput.value = '';
-      currentQuizIndex = 0;
-    }
-
-    function startQuiz() {
-      quizWords = Object.keys(translations);
-      if (quizWords.length === 0) {
-        alert('Add Words before starting the quiz.');
-        return;
-      }
-
-      shuffleArray(quizWords);
-      currentQuizIndex = 0;
-      showNextQuizWord();
-    }
-
-    function showNextQuizWord() {
-      const quizWordElement = document.getElementById('quizWord');
-      const quizTranslationInput = document.getElementById('quizTranslation');
-      const quizResultElement = document.getElementById('quizResult');
-
-      quizResultElement.textContent = '';
-      quizWordElement.textContent = quizWords[currentQuizIndex];
-      quizTranslationInput.value = '';
-    }
-
-    function checkQuizAnswer() {
-      const quizTranslationInput = document.getElementById('quizTranslation');
-      const quizResultElement = document.getElementById('quizResult');
-      const quizWord = quizWords[currentQuizIndex];
-      const userTranslation = quizTranslationInput.value.trim().toLowerCase();
-      const correctTranslation = translations[quizWord].toLowerCase();
-
-      if (userTranslation === correctTranslation) {
-        quizResultElement.textContent = 'Correct!';
-        setTimeout(function () {
-          requestAnimationFrame(function () {
-            currentQuizIndex++;
-            if (currentQuizIndex < quizWords.length) {
-              showNextQuizWord();
-            } else {
-              setTimeout(function () {
-                quizResultElement.textContent = 'Quiz completed!';
-              }, 1000);
-            }
-          });
-        }, 1000);
-      } else {
-        quizResultElement.textContent = 'Incorrect. Try again.';
-      }
-    }
-
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-    }
-
-    function revealTranslation() {
-      const quizWordElement = document.getElementById('quizWord');
-      const correctTranslation = translations[quizWordElement.textContent].toLowerCase();
-
-      const translationDisplay = document.createElement('div');
-      translationDisplay.className = 'translation-display';
-      translationDisplay.textContent = `Translation: ${correctTranslation}`;
-
-      document.body.appendChild(translationDisplay);
-
-      setTimeout(() => {
-        document.body.removeChild(translationDisplay);
-      }, 3000); // Display for 3 seconds, adjust as needed
-    }
-
-    loadTranslations();
-    updateTranslationsList();
-  </script>
+  <script src="script.js"></script>
 
 </body>
+
 </html>
